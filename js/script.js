@@ -125,6 +125,7 @@ $(function () {
 
     $("#runner").animate({'marginLeft':5632 * 0.14 * 6}, {
       duration: 12000,
+      easing: "linear",
       step: function(left){
         checkObstacle(left);
         animateBackground(left);
