@@ -100,7 +100,16 @@ $(function () {
 
 
   $('#startButton').click(function () {
-    
+
+
+    if(!!localStorage.hello){
+      alert(localStorage.hello);
+    }
+
+    localStorage.hello = 'Hello';
+
+    var leftPos = $('body').scrollLeft(0);
+
     $("#amazon").toggle("fade");
     $("#bahia").toggle("fade");
     $("#saopaulo").toggle("fade");
@@ -119,13 +128,15 @@ $(function () {
 
     $("body").animate({scrollLeft: 5632 * 0.14 * 6},{
       duration: 12000,
-        step: function(){
+      easing: "swing",
+
+      step: function(){
       }
     });
 
     $("#runner").animate({'marginLeft':5632 * 0.14 * 6}, {
       duration: 12000,
-      easing: "linear",
+      easing: "swing",
       step: function(left){
         checkObstacle(left);
         animateBackground(left);
@@ -206,8 +217,8 @@ $(function () {
       var obstacleId = "#"+ obstacle.id;
       var scrollLeft = parseInt($(obstacleId).attr('leftPosition'));
 
-      var maximum = scrollLeft+15;
-      var minimum = scrollLeft + 9;
+      var maximum = scrollLeft+10+(6*currentLane);
+      var minimum = scrollLeft;
 
 
       if(correctedValue > minimum && correctedValue < maximum && !isJumping){
@@ -215,7 +226,14 @@ $(function () {
         if(startedClass === currentClass + " "){
           $("body").stop();
           $("#runner").stop();
-          alert("Game over! Obstacle: "+ obstacle.id +"runner"+ runnerLeft +"obstacle"+ scrollLeft);
+          //alert("Game over! Obstacle: "+ obstacle.id +"runner"+ runnerLeft +"obstacle"+ scrollLeft);
+
+          $("#end").removeClass('hide');
+
+          $("#end").dialog('open');
+          $("#restartButton").click(function () {
+            startGame();
+          })
         }
 
       }
@@ -223,6 +241,31 @@ $(function () {
     });
   }
 
+  function startGame() {
+
+
+    obstacles1 = [];
+    obstacles2 = [];
+    obstacles3 = [];
+    isJumping = false;
+    currentLane = 2;
+
+    var leftPos = $('body').scrollLeft(0);
+    $("#runner").css("marginLeft", "0px");
+    $("#amazon").toggle("fade");
+    $("#bahia").toggle("fade");
+    $("#saopaulo").toggle("fade");
+    $("#rio").toggle("fade");
+    $("#parana").toggle("fade");
+
+
+    addObstacles();
+    $("#end").dialog('close');
+
+    animateGame()
+
+
+  }
   function checkObstacle(runnerLeft) {
 
     console.log("try");
