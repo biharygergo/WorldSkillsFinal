@@ -2,9 +2,13 @@
 $(function () {
 
   var currentClass = 'runner2';
-  var obstacles = [];
+  var obstacles1 = [];
+  var obstacles2 = [];
+  var obstacles3 = [];
+
   var isJumping = false;
 
+  var currentLane = 2;
   $('html').keydown(function (e) {
 
     switch (e.which) {
@@ -64,6 +68,8 @@ $(function () {
     }
 
     currentClass = $("#runner").attr('class');
+    currentLane = parseInt(currentClass.substring(6));
+
     }
   }
 
@@ -87,6 +93,8 @@ $(function () {
       }
 
       currentClass = $("#runner").attr('class');
+      currentLane = parseInt(currentClass.substring(6));
+
     }
   }
 
@@ -126,7 +134,7 @@ $(function () {
         $("#runner").animate({'marginBottom' : (originalMargin + 120), 'marginLeft': 5100}, {
           duration: 3000,
           complete: function () {
-            $("#pyreImage").attr("src" ,"imgs/pyre_fire.svg")
+            $("#pyreImage").attr("src" ,"imgs/pyre_fire.svg");
             $("#runner").addClass("hidden");
           }
 
@@ -146,7 +154,7 @@ $(function () {
     for(var i = 0; i<18 ;i++){
       var laneId = (i % 3) + 1;
 
-      $("#runway"+laneId).append("<span id='obstacle"+i+"'class='obstacle'></span>");
+      $("#runway"+laneId).append("<span id='obstacle"+i+"'class='obstacle obstacle"+laneId+"'></span>");
       var randomMargin = Math.floor(Math.random() * (1000 - 200 + 1)) + 200;
       $("#obstacle"+i).css({'marginLeft' : randomMargin});
 
@@ -169,27 +177,66 @@ $(function () {
       }
     }
 
-    obstacles = $(".obstacle").toArray();
+    obstacles1 = $(".obstacle1").toArray();
+    obstacles2 = $(".obstacle2").toArray();
+    obstacles3 = $(".obstacle3").toArray();
+
+  }
+
+  function tryHitObstacle(obstacles, runnerLeft) {
+    var startedClass = currentClass + " ";
+    var correctedValue = runnerLeft + 100;
+
+    switch (currentLane){
+      case 1:
+        correctedValue = runnerLeft + 40;
+        break;
+      case 2:
+        correctedValue = runnerLeft + 55;
+        break;
+      case 3:
+        correctedValue = runnerLeft + 60;
+        break;
+
+    }
+
+    obstacles.forEach(function (obstacle) {
+
+      var obstacleId = "#"+ obstacle.id;
+      var scrollLeft = parseInt($(obstacleId).attr('leftPosition'));
+
+      var maximum = scrollLeft+15;
+      var minimum = scrollLeft + 9;
+
+
+      if(correctedValue > minimum && correctedValue < maximum && !isJumping){
+
+        if(startedClass === currentClass + " "){
+          $("body").stop();
+          $("#runner").stop();
+          alert("Game over! Obstacle: "+ obstacle.id +"runner"+ runnerLeft +"obstacle"+ scrollLeft);
+        }
+
+      }
+
+    });
   }
 
   function checkObstacle(runnerLeft) {
 
+    console.log("try");
+    switch (currentLane){
+      case 1:
+        tryHitObstacle(obstacles1, runnerLeft);
+        break;
+      case 2:
+        tryHitObstacle(obstacles2, runnerLeft);
+        break;
+      case 3:
+        tryHitObstacle(obstacles3, runnerLeft);
+        break;
 
-    obstacles.forEach(function (obstacle) {
-      var runwayId = obstacle.parentNode.id.substring(6);
-      var runnerId = currentClass.substring(6);
-
-      var obstacleId = "#"+ obstacle.id;
-      var scrollLeft = $(obstacleId).attr('leftPosition');
-
-      if(runwayId === runnerId && scrollLeft > runnerLeft+135 && scrollLeft < runnerLeft+135 && !isJumping){
-        $("body").stop();
-        $("#runner").stop();
-        alert("Game over!");
-      }
-
-    });
-
+    }
   }
 
   var slice = 5632 * 0.14;

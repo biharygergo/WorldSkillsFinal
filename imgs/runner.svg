@@ -129,7 +129,7 @@
                     to="-100 52 73"
 
 					  begin="0s; rightbackward.end"
-                    dur="1s"/>
+                    dur="0.5s"/>
 		<animateTransform attributeType="xml"
 
                     attributeName="transform"
@@ -145,7 +145,7 @@
 
 						  begin="rightforward.end"
 
-                    dur="1s"
+                    dur="0.5s"
 />
 	<animateTransform attributeType="xml"
 
@@ -160,7 +160,7 @@
 
                     to="100 54 72"
 					begin="0s;leftbackward.end"
-                    dur="1s"/>
+                    dur="0.5s"/>
 	<animateTransform attributeType="xml"
 
                     attributeName="transform"
@@ -174,7 +174,7 @@
 
                     to="0 54 72"
 					begin="leftforward.end"
-                    dur="1s"/>
+                    dur="0.5s"/>
 
 	<animateTransform attributeType="xml"
 
@@ -189,7 +189,7 @@
                     to="-100 72 54"
 
 					  begin="0s;rightbackward.end"
-                    dur="1s"
+                    dur="0.5s"
 />
 	<animateTransform attributeType="xml"
 
@@ -203,7 +203,7 @@
 
                     to="0 72 54"
 					begin="rightforward.end"
-                    dur="1s"
+                    dur="0.5s"
 />
 	<animateTransform attributeType="xml"
 
@@ -217,7 +217,7 @@
 
                     to="100 81 61"
 					begin="0s;leftbackward.end"
-                    dur="1s"/>
+                    dur="0.5s"/>
 	<animateTransform attributeType="xml"
 
                     attributeName="transform"
@@ -231,7 +231,7 @@
                     to="0 81 61"
 
 					  begin="leftforward.end"
-                    dur="1s"
+                    dur="0.5s"
 />
 </g>
 
